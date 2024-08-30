@@ -4,6 +4,7 @@ def main() -> None:
     screen = Screen()
     turtle = Turtle()
     screen.setup(width= 800, height = 600)
+    screen.title("Capstone Game")
     screen.bgcolor("white")
     screen.tracer(0)
     turtle.color("black")
