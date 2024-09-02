@@ -2,6 +2,7 @@ from turtle import Screen, Turtle
 import time
 from random import choice
 from car import Car
+from player import Player
 COLORS = ["red", "yellow", "orange", "green", "blue", "black", "magenta"]
 def draw_lanes(turtle, y_cor):
     turtle.pendown()
@@ -27,12 +28,24 @@ def main() -> None:
         turtle.goto(-370, y_cor)
     turtle.hideturtle()
     game_is_on = True
-    screen.tracer(1)
-    car = Car(location=(370, -130), colour= choice(COLORS), rate="slow" )
+
+    player = Player()
     while game_is_on:
-        time.sleep(1)
-        car.move((-370, -130))
+        screen.tracer(0)
+        car = Car(location=(370, -130), colour= choice(COLORS), rate="slowest" )
+        screen.listen()
         screen.update()
+        time.sleep(1)
+        screen.onkey(player.move_up, "Up")
+        screen.tracer(1)
+        car.move((-370, -130))
+        if car.xcor() < -350:
+            car.clear()
+            screen.update()
+        if player.ycor() > 140:
+            game_is_on = False
+            print(player.ycor())
+
 
 
 
