@@ -12,4 +12,7 @@ class Car(Turtle):
 
     def move(self, to):
         self.goto(to)
-        
+    def eraser(self):
+        self.clear()
+        self.hideturtle()
+        del self
