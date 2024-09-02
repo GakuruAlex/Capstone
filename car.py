@@ -12,3 +12,4 @@ class Car(Turtle):
 
     def move(self, to):
         self.goto(to)
+        
