@@ -1,4 +1,4 @@
-import time
+from time import sleep
 from turtle import Screen
 from player import Player
 from car_manager import CarManager
@@ -16,7 +16,7 @@ game_is_on = True
 counter = 0
 while game_is_on:
     counter += 1
-    time.sleep(0.1)
+    sleep(0.1)
     screen.update()
     screen.listen()
     screen.onkey(player.move, "w")
@@ -26,9 +26,12 @@ while game_is_on:
 
     for car in car_manager.cars:
         if player.distance(car) < 20:
+            scoreboard.game_over()
             game_is_on = False
-            break
+
     if player.is_at_finish_line():
         player.go_to_start()
         car_manager.increase_speed()
         scoreboard.increase_score()
+
+screen.exitonclick()
