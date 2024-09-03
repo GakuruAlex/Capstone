@@ -6,6 +6,7 @@ from scoreboard import Scoreboard
 
 screen = Screen()
 screen.setup(width=600, height=600)
+screen.title("Turtle crossing game")
 screen.tracer(0)
 player = Player()
 car_manager = CarManager()
@@ -18,4 +19,6 @@ while game_is_on:
     screen.update()
     screen.listen()
     screen.onkey(player.move, "w")
-    car_manager.generate_car()
+    if counter % 3 == 0:
+        car_manager.generate_car()
+    car_manager.move_cars()
