@@ -22,9 +22,13 @@ while game_is_on:
     screen.onkey(player.move, "w")
     if counter % 4 == 0:
         car_manager.generate_car()
+    car_manager.move_cars()
 
-    if player.ycor() >=280:
-        car_manager.move_cars()
+    for car in car_manager.cars:
+        if player.distance(car) < 20:
+            game_is_on = False
+            break
+    if player.is_at_finish_line():
+        player.go_to_start()
+        car_manager.increase_speed()
         scoreboard.increase_score()
-    else:
-        car_manager.move_cars()
