@@ -1,43 +1,37 @@
-from turtle import Screen, Turtle
-import time
-from random import choice
-from car import Car
-COLORS = ["red", "yellow", "orange", "green", "blue", "black", "magenta"]
-def draw_lanes(turtle, y_cor):
-    turtle.pendown()
-    turtle.goto(x= 370, y=y_cor)
-    turtle.penup()
+from time import sleep
+from turtle import Screen
+from player import Player
+from car_manager import CarManager
+from scoreboard import Scoreboard
 
+screen = Screen()
+screen.setup(width=600, height=600)
+screen.title("Turtle crossing game")
+screen.tracer(0)
+player = Player()
+car_manager = CarManager()
+scoreboard = Scoreboard()
 
-def main() -> None:
-    screen = Screen()
-    turtle = Turtle()
+game_is_on = True
+counter = 0
+while game_is_on:
+    counter += 1
+    sleep(0.1)
+    screen.update()
+    screen.listen()
+    screen.onkey(player.move, "w")
+    if counter % 4 == 0:
+        car_manager.generate_car()
+    car_manager.move_cars()
 
-    screen.setup(width= 800, height = 400)
-    screen.title("Capstone Game")
-    screen.bgcolor("white")
-    screen.tracer(0)
-    turtle.penup()
-    turtle.goto(-370, -140)
-    turtle.color("black")
-    y_cor = turtle.ycor()
-    for _ in range(0, 15):
-        draw_lanes(turtle, y_cor)
-        y_cor += 20
-        turtle.goto(-370, y_cor)
-    turtle.hideturtle()
-    game_is_on = True
-    screen.tracer(1)
-    car = Car(location=(370, -130), colour= choice(COLORS), rate="slow" )
-    while game_is_on:
-        time.sleep(1)
-        car.move((-370, -130))
-        screen.update()
+    for car in car_manager.cars:
+        if player.distance(car) < 20:
+            scoreboard.game_over()
+            game_is_on = False
 
+    if player.is_at_finish_line():
+        player.go_to_start()
+        car_manager.increase_speed()
+        scoreboard.increase_score()
 
-
-    screen.exitonclick()
-
-
-if __name__ == "__main__":
-    main()
+screen.exitonclick()
