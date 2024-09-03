@@ -10,6 +10,7 @@ screen.title("Turtle crossing game")
 screen.tracer(0)
 player = Player()
 car_manager = CarManager()
+scoreboard = Scoreboard()
 
 game_is_on = True
 counter = 0
@@ -19,6 +20,11 @@ while game_is_on:
     screen.update()
     screen.listen()
     screen.onkey(player.move, "w")
-    if counter % 3 == 0:
+    if counter % 4 == 0:
         car_manager.generate_car()
-    car_manager.move_cars()
+
+    if player.ycor() >=280:
+        car_manager.move_cars()
+        scoreboard.increase_score()
+    else:
+        car_manager.move_cars()
